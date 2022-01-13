@@ -36,7 +36,7 @@ program
   .option("-c, --exportComments", "Include comments in the export.")
   .option("-e, --exportAll", "Include all data in the export.")
   .option("-v, --verbose", "Include additional logging information.")
-  .action(function (file, options) {
+  .action(async function (file, options) {
     co(function* () {
       const retObject = {};
       retObject.githubUrl =
