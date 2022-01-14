@@ -169,6 +169,7 @@ const exportIssues = (octokit, values) => {
     owner: values.userOrOrganization,
     repo: values.repo,
     state: "all",
+    direction: "asc"
   });
   octokit.paginate(options).then(
     async (data) => {

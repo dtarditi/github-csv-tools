@@ -25,6 +25,7 @@ program
     "The User or Organization slug that the repo lives under."
   )
   .option("-r, --repository [repository]", "The repository name (slug).")
+  .option("-s, --source [URL]", "For imports, the URL of the repository the issues were exported from")
   .option(
     "-f, --exportFileName [export.csv]",
     "The name of the CSV you'd like to export to."
@@ -49,6 +50,7 @@ program
       }
       retObject.exportFileName = options.exportFileName || false;
       retObject.exportAttributes = options.exportAttributes || false;
+      retObject.sourceURL = options.source || "";
       if (retObject.exportAttributes) {
         retObject.exportAttributes = retObject.exportAttributes
           .split(",")
