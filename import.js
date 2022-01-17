@@ -130,8 +130,8 @@ async function importFile(octokit, file, values) {
         }
       }
     }
-    // Wait 5 seconds to avoid GitHub secondary throttling.
-    await new Promise((resolve, reject) => setTimeout(resolve, 5000));
+    // Wait to avoid GitHub secondary throttling.
+    await new Promise((resolve, reject) => setTimeout(resolve, values.pauseTime));
   }
 
   console.log(

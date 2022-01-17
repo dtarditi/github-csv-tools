@@ -8,6 +8,7 @@ const { Octokit } = require("@octokit/rest");
 const { throttling } = require("@octokit/plugin-throttling");
 const { importFile } = require("./import.js");
 const { exportIssues } = require("./export.js");
+const { exitOverride } = require("commander");
 
 program
   .version(require('./package.json').version)
@@ -36,6 +37,7 @@ program
   )
   .option("-c, --exportComments", "Include comments in the export.")
   .option("-e, --exportAll", "Include all data in the export.")
+  .option("-p, --pause [milliseconds]", "When importing, pause for this time ase after creating an issue or comment (default = 120000")
   .option("-v, --verbose", "Include additional logging information.")
   .action(async function (file, options) {
     co(function* () {
@@ -57,6 +59,14 @@ program
           .map((i) => i.trim());
       }
       retObject.exportComments = options.exportComments || false;
+      retObject.pauseTime = 30000; // 39 seconds (in milliseconds)
+      if (options.pause) {
+        retObject.pauseTime = parseInt(options.pause);
+        if (isNaN(retObject.pauseTime) || retObject.pauseTime < 0) {
+          console.error("invalid pause time: %s", options.pause);
+          process.exit(-1);
+        }
+      }
       retObject.exportAll = options.exportAll || false;
       retObject.verbose = options.verbose || false;
 
